@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.edu.ecu.pw.pw_api_u3_p6_al.modelo.Estudiante;
 import com.edu.ecu.pw.pw_api_u3_p6_al.service.IEstudianteService;
 
+import jakarta.persistence.criteria.CriteriaBuilder.In;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,14 +67,25 @@ public class EstudianteController {
         this.estudianteService.borrar(id);
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/buscar/3/nuevo
-    @GetMapping(path = "/buscar/{id}/nuevo")
-    public Estudiante buscar(@PathVariable Integer id){
+    @GetMapping(path = "/buscar/{id}/nuevo/{dato}")
+    public Estudiante buscar(@PathVariable Integer id, String dato){
+        System.out.println("dato: "+dato);
         return this.estudianteService.buscar(id);
     } 
-
+    //http://localhost:8080/API/v1.0/Matricula/estudiantes/bucarByGenero?genero=F&edad=35
     @GetMapping(path = "/bucarByGenero")
-    public List<Estudiante> buscarByGenero(@RequestParam String genero){
+    public List<Estudiante> buscarByGenero(@RequestParam String genero, @RequestParam Integer edad){
+        System.out.println("edad: "+edad);
         List<Estudiante> lista = this.estudianteService.buscarByGenero(genero);
         return lista;
     }
+        
+    @GetMapping(path = "/bucarMixto/{id}")
+    public Estudiante buscarMixto(@PathVariable Integer id, @RequestParam String test){
+        System.out.println("dato: "+test);
+        System.out.println("dato: "+id);
+        return this.estudianteService.buscar(id);
+    }
+
+
 }
