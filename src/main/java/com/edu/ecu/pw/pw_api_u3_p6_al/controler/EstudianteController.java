@@ -64,6 +64,9 @@ public class EstudianteController {
         if(est.getFechaNacimiento()!=null){
             est2.setFechaNacimiento(est.getFechaNacimiento());
         }
+        if(est.getGenero()!=null){
+            est2.setGenero(est.getGenero());
+        }
         this.estudianteService.actualizar(est2);
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/borrar
@@ -75,18 +78,20 @@ public class EstudianteController {
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/buscar/3/nuevo
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
     @GetMapping(path = "/{id}")
-    public Estudiante buscar(@PathVariable Integer id){
+    public Estudiante buscarById(@PathVariable Integer id){
         return this.estudianteService.buscar(id);
     } 
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/bucarByGenero?genero=F&edad=35
-    @GetMapping(path = "/bucarByGenero")
-    public List<Estudiante> buscarByGenero(@RequestParam String genero, @RequestParam Integer edad){
-        System.out.println("edad: "+edad);
+    // debe hacer alucion al filtro pero no debe etener la accion o estar en infinitivo
+    //Nivel 1 : //http://localhost:8080/API/v1.0/Matricula/estudiantes/genero?genero=F
+    @GetMapping(path = "/genero")
+    public List<Estudiante> buscarByGenero(@RequestParam String genero){
         List<Estudiante> lista = this.estudianteService.buscarByGenero(genero);
         return lista;
     }
         
-    @GetMapping(path = "/bucarMixto/{id}")
+    //Nivel 1 : //http://localhost:8080/API/v1.0/Matricula/estudiantes/mixto/3?test=holaMundoXD
+    @GetMapping(path = "/mixto/{id}")
     public Estudiante buscarMixto(@PathVariable Integer id, @RequestParam String test){
         System.out.println("dato: "+test);
         System.out.println("dato: "+id);
