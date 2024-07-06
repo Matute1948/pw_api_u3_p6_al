@@ -26,20 +26,22 @@ public class MateriaController {
     @Autowired
     private IMateriaService materiaService;
 
-    @PostMapping(path = "/guardar")
+    //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias
+    @PostMapping
     public void guardar(@RequestBody Materia mat){
         this.materiaService.guardar(mat);
     }
-
-    @PutMapping(path = "/actualizar")
-    public void actualizar(@RequestBody Materia mat){
+    //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias/1
+    @PutMapping(path = "/{id}")
+    public void actualizar(@RequestBody Materia mat, @PathVariable Integer id){
+        mat.setId(id);
         this.materiaService.actualizar(mat);
     }
-
-    @PatchMapping(path = "/actualizarParcial")
-    public void actualizarParcial(@RequestBody Materia mat){
+    //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias/1
+    @PatchMapping(path = "/{id}")
+    public void actualizarParcial(@RequestBody Materia mat, @PathVariable Integer id){
+        mat.setId(id);
         Materia mat2 = this.materiaService.buscar(mat.getId());
-
         if (mat.getNombre() != null) {
             mat2.setNombre(mat.getNombre());
         }
@@ -60,17 +62,20 @@ public class MateriaController {
 
     }
 
-    @DeleteMapping(path = "/borrar/{id}")
+    //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias/1
+    @DeleteMapping(path = "/{id}")
     public void borrar(@PathVariable Integer id){
         this.materiaService.buscar(id);
     }
 
-    @GetMapping(path = "/buscar/{id}/nuevo")
+    //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias/1
+    @GetMapping(path = "/{id}")
     public Materia buscar(@PathVariable Integer id){
         return this.materiaService.buscar(id);
     }
 
-    @GetMapping(path = "/buscarByGenero")
+    //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias/codigo?codigo=MAT01
+    @GetMapping(path = "/codigo")
     public List<Materia> buscarByCodigo(@RequestParam String codigo){
         List<Materia> lista = this.materiaService.buscarByCodigo(codigo);
         return lista;
