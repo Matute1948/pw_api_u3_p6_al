@@ -43,7 +43,9 @@ public class EstudianteController {
         //est.setApellido("Lugmaña");
         //est.setFechaNacimiento(LocalDateTime.of(2000, 07, 27, 0, 0));
         this.estudianteService.guardar(est);
-        return ResponseEntity.status(201).body(est);
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("data", "Estudiante guardado exitosamente");
+        return new ResponseEntity<>(est, cabeceras, 201);
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizar
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
@@ -51,7 +53,9 @@ public class EstudianteController {
     public ResponseEntity<Estudiante> actualizar(@RequestBody Estudiante est, @PathVariable Integer id){
         est.setId(id);
         this.estudianteService.actualizar(est);
-        return ResponseEntity.status(238).body(est);
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("data", "Estudiante actualizado exitosamente");
+        return new ResponseEntity<>(est, cabeceras, 238);
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizarParcial
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
@@ -59,27 +63,32 @@ public class EstudianteController {
     public ResponseEntity<Estudiante> actualizarParcial(@RequestBody Estudiante est, @PathVariable Integer id){
         est.setId(id);
         Estudiante est2 = this.estudianteService.buscar(est.getId());
-        if(est.getNombre()!=null){
+        if (est.getNombre() != null) {
             est2.setNombre(est.getNombre());
         }
-        if(est.getApellido()!=null){
+        if (est.getApellido() != null) {
             est2.setApellido(est.getApellido());
         }
-        if(est.getFechaNacimiento()!=null){
+        if (est.getFechaNacimiento() != null) {
             est2.setFechaNacimiento(est.getFechaNacimiento());
         }
-        if(est.getGenero()!=null){
+        if (est.getGenero() != null) {
             est2.setGenero(est.getGenero());
         }
         this.estudianteService.actualizar(est2);
-        return ResponseEntity.status(239).body(est2);
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("data", "Estudiante actualizado parcialmente");
+        return new ResponseEntity<>(est2, cabeceras, 239);
     }
+
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/borrar
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<String> borrar(@PathVariable Integer id){
         this.estudianteService.borrar(id);
-        return ResponseEntity.status(240).body("Borrado");
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("data", "Estudiante borrado exitosamente");
+        return new ResponseEntity<>("Borrado", cabeceras, 240);
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/buscar/3/nuevo
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3

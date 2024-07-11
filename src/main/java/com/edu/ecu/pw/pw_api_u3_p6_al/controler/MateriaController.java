@@ -3,6 +3,8 @@ package com.edu.ecu.pw.pw_api_u3_p6_al.controler;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,18 +30,24 @@ public class MateriaController {
 
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias
     @PostMapping
-    public void guardar(@RequestBody Materia mat){
+    public ResponseEntity<Materia> guardar(@RequestBody Materia mat) {
         this.materiaService.guardar(mat);
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("data", "Materia guardada exitosamente");
+        return new ResponseEntity<>(mat, cabeceras, 201);
     }
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias/1
     @PutMapping(path = "/{id}")
-    public void actualizar(@RequestBody Materia mat, @PathVariable Integer id){
+    public ResponseEntity<Materia> actualizar(@RequestBody Materia mat, @PathVariable Integer id) {
         mat.setId(id);
         this.materiaService.actualizar(mat);
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("data", "Materia actualizada exitosamente");
+        return new ResponseEntity<>(mat, cabeceras, 238);
     }
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias/1
     @PatchMapping(path = "/{id}")
-    public void actualizarParcial(@RequestBody Materia mat, @PathVariable Integer id){
+    public ResponseEntity<Materia> actualizarParcial(@RequestBody Materia mat, @PathVariable Integer id) {
         mat.setId(id);
         Materia mat2 = this.materiaService.buscar(mat.getId());
         if (mat.getNombre() != null) {
@@ -57,28 +65,37 @@ public class MateriaController {
         if (mat.getProfesor() != null) {
             mat2.setProfesor(mat.getProfesor());
         }
-
         this.materiaService.actualizar(mat2);
-
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("data", "Materia actualizada parcialmente");
+        return new ResponseEntity<>(mat2, cabeceras, 239);
     }
 
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias/1
     @DeleteMapping(path = "/{id}")
-    public void borrar(@PathVariable Integer id){
-        this.materiaService.buscar(id);
+    public ResponseEntity<String> borrar(@PathVariable Integer id) {
+        this.materiaService.borrar(id);
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("data", "Materia borrada exitosamente");
+        return new ResponseEntity<>("Borrado", cabeceras, 240);
     }
 
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias/1
     @GetMapping(path = "/{id}")
-    public Materia buscar(@PathVariable Integer id){
-        return this.materiaService.buscar(id);
+    public ResponseEntity<Materia> buscar(@PathVariable Integer id) {
+        Materia mat = this.materiaService.buscar(id);
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("data", "Materia encontrada");
+        return new ResponseEntity<>(mat, cabeceras, 236);
     }
 
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/materias/codigo?codigo=MAT01
     @GetMapping(path = "/codigo")
-    public List<Materia> buscarByCodigo(@RequestParam String codigo){
+    public ResponseEntity<List<Materia>> buscarByCodigo(@RequestParam String codigo) {
         List<Materia> lista = this.materiaService.buscarByCodigo(codigo);
-        return lista;
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("data", "Búsqueda por código completada");
+        return new ResponseEntity<>(lista, cabeceras, 200);
     }
     
 }
