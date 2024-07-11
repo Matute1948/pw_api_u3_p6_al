@@ -11,6 +11,7 @@ import com.edu.ecu.pw.pw_api_u3_p6_al.service.IEstudianteService;
 import jakarta.persistence.criteria.CriteriaBuilder.In;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -84,7 +85,10 @@ public class EstudianteController {
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
     @GetMapping(path = "/{id}")
     public ResponseEntity<Estudiante> buscarById(@PathVariable Integer id){
-        return ResponseEntity.status(240).body(this.estudianteService.buscar(id));
+        //return ResponseEntity.status(240).body(this.estudianteService.buscar(id));
+        HttpHeaders cabeceras = new HttpHeaders();
+        cabeceras.add("data", "Se Encontro el estudiante");
+        return new ResponseEntity<>(this.estudianteService.buscar(id),cabeceras,236);
     } 
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/bucarByGenero?genero=F&edad=35
     // debe hacer alucion al filtro pero no debe etener la accion o estar en infinitivo
