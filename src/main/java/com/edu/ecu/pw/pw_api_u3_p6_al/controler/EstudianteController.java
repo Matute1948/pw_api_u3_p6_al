@@ -12,6 +12,7 @@ import jakarta.persistence.criteria.CriteriaBuilder.In;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +36,15 @@ public class EstudianteController {
 
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/guardar
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes
-    @PostMapping
+
+    // NIVEL 1: http://localhost:8080/API/v1.0/Matricula/estudiantes/texto/plano
+	@GetMapping(path = "/texto/plano")
+	public String prueba() {
+		String prueba = "TEXTO DE PRUEBA";
+		return prueba;
+		
+	}
+    @PostMapping(produces=MediaType.APPLICATION_XML_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<Estudiante> guardar(@RequestBody Estudiante est){
 
         //Estudiante est = new Estudiante();
@@ -49,7 +58,7 @@ public class EstudianteController {
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizar
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
-    @PutMapping(path="/{id}")
+    @PutMapping(path="/{id}", produces=MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Estudiante> actualizar(@RequestBody Estudiante est, @PathVariable Integer id){
         est.setId(id);
         this.estudianteService.actualizar(est);
@@ -59,7 +68,7 @@ public class EstudianteController {
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizarParcial
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
-    @PatchMapping(path = "/{id}")
+    @PatchMapping(path = "/{id}",produces=MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Estudiante> actualizarParcial(@RequestBody Estudiante est, @PathVariable Integer id){
         est.setId(id);
         Estudiante est2 = this.estudianteService.buscar(est.getId());
@@ -83,7 +92,7 @@ public class EstudianteController {
 
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/borrar
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> borrar(@PathVariable Integer id){
         this.estudianteService.borrar(id);
         HttpHeaders cabeceras = new HttpHeaders();
@@ -92,7 +101,7 @@ public class EstudianteController {
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/buscar/3/nuevo
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Estudiante> buscarById(@PathVariable Integer id){
         //return ResponseEntity.status(240).body(this.estudianteService.buscar(id));
         HttpHeaders cabeceras = new HttpHeaders();
@@ -102,14 +111,14 @@ public class EstudianteController {
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/bucarByGenero?genero=F&edad=35
     // debe hacer alucion al filtro pero no debe etener la accion o estar en infinitivo
     //Nivel 1 : //http://localhost:8080/API/v1.0/Matricula/estudiantes/genero?genero=F
-    @GetMapping(path = "/genero")
+    @GetMapping(path = "/genero", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Estudiante> buscarByGenero(@RequestParam String genero){
         List<Estudiante> lista = this.estudianteService.buscarByGenero(genero);
         return lista;
     }
         
     //Nivel 1 : //http://localhost:8080/API/v1.0/Matricula/estudiantes/mixto/3?test=holaMundoXD
-    @GetMapping(path = "/mixto/{id}")
+    @GetMapping(path = "/mixto/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Estudiante buscarMixto(@PathVariable Integer id, @RequestParam String test){
         System.out.println("dato: "+test);
         System.out.println("dato: "+id);
