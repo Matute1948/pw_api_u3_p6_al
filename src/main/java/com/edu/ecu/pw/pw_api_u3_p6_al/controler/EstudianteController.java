@@ -53,22 +53,22 @@ public class EstudianteController {
         //est.setFechaNacimiento(LocalDateTime.of(2000, 07, 27, 0, 0));
         this.estudianteService.guardar(est);
         HttpHeaders cabeceras = new HttpHeaders();
-        cabeceras.add("data", "Estudiante guardado exitosamente");
+        cabeceras.add("mensaje", "Estudiante guardado exitosamente");
         return new ResponseEntity<>(est, cabeceras, 201);
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizar
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
-    @PutMapping(path="/{id}", produces=MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path="/{id}", produces=MediaType.APPLICATION_XML_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Estudiante> actualizar(@RequestBody Estudiante est, @PathVariable Integer id){
         est.setId(id);
         this.estudianteService.actualizar(est);
         HttpHeaders cabeceras = new HttpHeaders();
-        cabeceras.add("data", "Estudiante actualizado exitosamente");
+        cabeceras.add("mensaje", "Estudiante actualizado exitosamente");
         return new ResponseEntity<>(est, cabeceras, 238);
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizarParcial
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
-    @PatchMapping(path = "/{id}",produces=MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(path = "/{id}",produces=MediaType.APPLICATION_XML_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Estudiante> actualizarParcial(@RequestBody Estudiante est, @PathVariable Integer id){
         est.setId(id);
         Estudiante est2 = this.estudianteService.buscar(est.getId());
@@ -92,7 +92,7 @@ public class EstudianteController {
 
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/borrar
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<String> borrar(@PathVariable Integer id){
         this.estudianteService.borrar(id);
         HttpHeaders cabeceras = new HttpHeaders();
@@ -101,7 +101,7 @@ public class EstudianteController {
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/buscar/3/nuevo
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<Estudiante> buscarById(@PathVariable Integer id){
         //return ResponseEntity.status(240).body(this.estudianteService.buscar(id));
         HttpHeaders cabeceras = new HttpHeaders();
