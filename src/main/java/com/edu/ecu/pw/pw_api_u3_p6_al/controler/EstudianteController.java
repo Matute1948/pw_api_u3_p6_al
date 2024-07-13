@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.edu.ecu.pw.pw_api_u3_p6_al.modelo.Estudiante;
 import com.edu.ecu.pw.pw_api_u3_p6_al.service.IEstudianteService;
+import com.edu.ecu.pw.pw_api_u3_p6_al.service.to.EstudianteTO;
 
 import jakarta.persistence.criteria.CriteriaBuilder.In;
 
@@ -123,6 +124,12 @@ public class EstudianteController {
         System.out.println("dato: "+test);
         System.out.println("dato: "+id);
         return this.estudianteService.buscar(id);
+    }
+    //http://localhost:8080/API/v1.0/Matricula/estudiantes/hateoas/8
+    @GetMapping(path = "/hateoas/{id}")
+    public EstudianteTO buscarHateoas(@PathVariable Integer id){
+        EstudianteTO est = this.estudianteService.buscarPorID(id);
+        return est;
     }
 
 

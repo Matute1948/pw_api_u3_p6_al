@@ -1,12 +1,14 @@
 package com.edu.ecu.pw.pw_api_u3_p6_al.modelo;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -26,6 +28,10 @@ public class Estudiante {
     private LocalDateTime fechaNacimiento;
     @Column(name = "estu_genero")
     private String genero;
+    //relacion con estudiante 
+    @OneToMany(mappedBy = "estudiante")
+    private List<Materia> materias;
+
     //Get and Set
     
     public Integer getId() {
@@ -58,10 +64,17 @@ public class Estudiante {
     public void setGenero(String genero) {
         this.genero = genero;
     }
+    
     @Override
     public String toString() {
         return "Estudiante [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", fechaNacimiento="
                 + fechaNacimiento + ", genero=" + genero + "]";
+    }
+    public List<Materia> getMaterias() {
+        return materias;
+    }
+    public void setMaterias(List<Materia> materias) {
+        this.materias = materias;
     }
 
     

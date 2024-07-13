@@ -50,4 +50,12 @@ public class MateriaRepositoryImpl implements IMateriaRepository{
         mQuery.setParameter("codigo", codigo);
         return mQuery.getResultList();
     }
+
+    @Override
+    public List<Materia> seleccionarByEstudiante(Integer id) {
+        // TODO Auto-generated method stub
+        TypedQuery<Materia> myQuery = this.entityManager.createQuery("SELECT m FROM Materia m WHERE m.estudiante.id =:id ", Materia.class);
+        myQuery.setParameter("id", id);
+        return myQuery.getResultList();
+    }
 }
