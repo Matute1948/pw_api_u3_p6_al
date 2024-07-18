@@ -59,5 +59,10 @@ public class EstudianteServiceImpl implements IEstudianteService{
         Estudiante est = this.estudianteRepository.seleccionar(id);
         return this.convertir(est);
     }
+
+    @Override
+    public List<Estudiante> seleccionarTodos() {
+        return estudianteRepository.seleccionarTodos();
+    }
     
 }

@@ -13,4 +13,5 @@ public interface IEstudianteService {
     public void guardar(Estudiante estudiante);
     public List<Estudiante> buscarByGenero(String genero);
     public EstudianteTO buscarPorID(Integer id);
+    public List<Estudiante> seleccionarTodos();
 }
