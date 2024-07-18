@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -27,7 +28,7 @@ public class Materia {
     private Integer horas;
     @Column(name = "mat_numero_cupos")
     private Integer cupos;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "mate_id_estudiante")
     private Estudiante estudiante;
     
