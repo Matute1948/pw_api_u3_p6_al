@@ -47,9 +47,9 @@ public class MateriaServiceImpl implements IMateriaService{
     }
 
     @Override
-    public List<MateriaTO> buscarByEstudiante(Integer id) {
+    public List<MateriaTO> buscarByEstudiante(String cedula) {
         // TODO Auto-generated method stub
-        List<Materia> lista = this.materiaRepository.seleccionarByEstudiante(id);
+        List<Materia> lista = this.materiaRepository.seleccionarByEstudiante(cedula);
         List<MateriaTO> listaFinal = new ArrayList<>();
         for(Materia mat : lista){
             listaFinal.add(this.convertir(mat));

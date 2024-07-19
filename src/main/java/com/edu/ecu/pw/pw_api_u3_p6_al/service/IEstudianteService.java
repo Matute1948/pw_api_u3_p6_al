@@ -7,11 +7,11 @@ import com.edu.ecu.pw.pw_api_u3_p6_al.service.to.EstudianteTO;
 
 public interface IEstudianteService {
         //Crud
-    public Estudiante buscar(Integer id);
+    public Estudiante buscar(String cedula);
     public void actualizar(Estudiante estudiante);
-    public void borrar(Integer id);
+    public void borrar(String cedula);
     public void guardar(Estudiante estudiante);
     public List<Estudiante> buscarByGenero(String genero);
-    public EstudianteTO buscarPorID(Integer id);
+    public EstudianteTO buscarPorID(String cedula);
     public List<Estudiante> seleccionarTodos();
 }

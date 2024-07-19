@@ -12,5 +12,5 @@ public interface IMateriaService {
     public void borrar(Integer id);
     public void guardar(Materia materia);
     public List<Materia> buscarByCodigo(String codigo);
-    public List<MateriaTO> buscarByEstudiante(Integer id);
+    public List<MateriaTO> buscarByEstudiante(String cedula);
 }

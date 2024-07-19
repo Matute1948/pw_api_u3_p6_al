@@ -12,5 +12,5 @@ public interface IMateriaRepository {
     public void eliminar(Integer id);
     public void insertar(Materia materia);
     public List<Materia> seleccionarByCodigo(String codigo);
-    public List<Materia> seleccionarByEstudiante(Integer id);
+    public List<Materia> seleccionarByEstudiante(String cedula);
 }

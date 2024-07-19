@@ -67,9 +67,9 @@ public class EstudianteController {
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizar
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
-    @PutMapping(path="/{id}", produces=MediaType.APPLICATION_XML_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Estudiante> actualizar(@RequestBody Estudiante est, @PathVariable Integer id){
-        est.setId(id);
+    @PutMapping(path="/{cedula}", produces=MediaType.APPLICATION_XML_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Estudiante> actualizar(@RequestBody Estudiante est, @PathVariable String cedula){
+        est.setCedula(cedula);;
         this.estudianteService.actualizar(est);
         HttpHeaders cabeceras = new HttpHeaders();
         cabeceras.add("mensaje", "Estudiante actualizado exitosamente");
@@ -77,10 +77,10 @@ public class EstudianteController {
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/actualizarParcial
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
-    @PatchMapping(path = "/{id}",produces=MediaType.APPLICATION_XML_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Estudiante> actualizarParcial(@RequestBody Estudiante est, @PathVariable Integer id){
-        est.setId(id);
-        Estudiante est2 = this.estudianteService.buscar(est.getId());
+    @PatchMapping(path = "/{cedula}",produces=MediaType.APPLICATION_XML_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Estudiante> actualizarParcial(@RequestBody Estudiante est, @PathVariable String cedula){
+        est.setCedula(cedula);
+        Estudiante est2 = this.estudianteService.buscar(est.getCedula());
         if (est.getNombre() != null) {
             est2.setNombre(est.getNombre());
         }
@@ -101,21 +101,21 @@ public class EstudianteController {
 
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/borrar
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<String> borrar(@PathVariable Integer id){
-        this.estudianteService.borrar(id);
+    @DeleteMapping(path = "/{cedula}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<String> borrar(@PathVariable String cedula){
+        this.estudianteService.borrar(cedula);
         HttpHeaders cabeceras = new HttpHeaders();
         cabeceras.add("data", "Estudiante borrado exitosamente");
         return new ResponseEntity<>("Borrado", cabeceras, 240);
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/buscar/3/nuevo
     //Nivel 1 http://localhost:8080/API/v1.0/Matricula/estudiantes/3
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<Estudiante> buscarById(@PathVariable Integer id){
+    @GetMapping(path = "/{cedula}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<Estudiante> buscarById(@PathVariable String cedula){
         //return ResponseEntity.status(240).body(this.estudianteService.buscar(id));
         HttpHeaders cabeceras = new HttpHeaders();
         cabeceras.add("data", "Se Encontro el estudiante");
-        return new ResponseEntity<>(this.estudianteService.buscar(id),cabeceras,236);
+        return new ResponseEntity<>(this.estudianteService.buscar(cedula),cabeceras,236);
     } 
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/bucarByGenero?genero=F&edad=35
     // debe hacer alucion al filtro pero no debe etener la accion o estar en infinitivo
@@ -127,35 +127,43 @@ public class EstudianteController {
     }
         
     //Nivel 1 : //http://localhost:8080/API/v1.0/Matricula/estudiantes/mixto/3?test=holaMundoXD
-    @GetMapping(path = "/mixto/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Estudiante buscarMixto(@PathVariable Integer id, @RequestParam String test){
+    @GetMapping(path = "/mixto/{cedula}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Estudiante buscarMixto(@PathVariable String cedula, @RequestParam String test){
         System.out.println("dato: "+test);
-        System.out.println("dato: "+id);
-        return this.estudianteService.buscar(id);
+        System.out.println("dato: "+cedula);
+        return this.estudianteService.buscar(cedula);
     }
     //http://localhost:8080/API/v1.0/Matricula/estudiantes/hateoas/8
-    @GetMapping(path = "/hateoas/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public EstudianteTO buscarHateoas(@PathVariable Integer id){
-        EstudianteTO est = this.estudianteService.buscarPorID(id);
+    @GetMapping(path = "/hateoas/{cedula}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public EstudianteTO buscarHateoas(@PathVariable String cedula){
+        EstudianteTO est = this.estudianteService.buscarPorID(cedula);
         //List<MateriaTO> lista = this.materiaService.buscarByEstudiante(id);
         //est.setMaterias(lista);
-        Link myLink = linkTo(methodOn(EstudianteController.class).buscarMateriasPorIdEstudiante(id)).withRel("susMaterias");
+        Link myLink = linkTo(methodOn(EstudianteController.class).buscarMateriasPorIdEstudiante(cedula)).withRel("susMaterias");
         est.add(myLink);
 
-        Link myLink2 = linkTo(methodOn(EstudianteController.class).buscarById(id)).withSelfRel();
+        Link myLink2 = linkTo(methodOn(EstudianteController.class).buscarById(cedula)).withSelfRel();
 
         est.add(myLink2);
         return est;
     }
 
-    public List<MateriaTO> buscarPorEstudiante(@PathVariable Integer id){
-		return this.materiaService.buscarByEstudiante(id);
+    public List<MateriaTO> buscarPorEstudiante(@PathVariable String cedula){
+		return this.materiaService.buscarByEstudiante(cedula);
 	}
 
-    @GetMapping(path = "/{id}/materias")
-    public List<MateriaTO> buscarMateriasPorIdEstudiante(@PathVariable Integer id){
-        return this.materiaService.buscarByEstudiante(id);
+    @GetMapping(path = "/{cedula}/materias")
+    public List<MateriaTO> buscarMateriasPorIdEstudiante(@PathVariable String cedula){
+        return this.materiaService.buscarByEstudiante(cedula);
     }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Estudiante> buscarByGenero(){
+        List<Estudiante> lista = this.estudianteService.seleccionarTodos();
+        return lista;
+    }
+
+    
 
 
 }

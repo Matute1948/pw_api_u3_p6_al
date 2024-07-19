@@ -25,9 +25,9 @@ public class EstudainteRepositoryImpl implements IEstudianteRepository{
     }
 
     @Override
-    public void eliminar(Integer id) {
+    public void eliminar(String cedula) {
         // TODO Auto-generated method stub
-        this.entityManager.remove(this.seleccionar(id));
+        this.entityManager.remove(this.seleccionar(cedula));
         
     }
 
@@ -38,9 +38,9 @@ public class EstudainteRepositoryImpl implements IEstudianteRepository{
     }
 
     @Override
-    public Estudiante seleccionar(Integer id) {
+    public Estudiante seleccionar(String cedula) {
         // TODO Auto-generated method stub
-        return this.entityManager.find(Estudiante.class, id);
+        return this.entityManager.find(Estudiante.class, cedula);
     }
 
     @Override
